@@ -1,0 +1,70 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+	<script type="text/javascript">
+var twitterKeys = require("./keys.js");
+var fs = require("fs");
+var request = require("request")
+
+
+var action = process.argv[2];
+var value = process.argv[3];
+
+
+switch(action) {
+	case "my-tweets":
+		myTweets();
+		break;
+
+	case "spotify-this-song":
+		spotifyThisSong();
+		break;
+
+	case "movie-this":
+		movieThis();
+		break;
+
+	case "do-what-it-says":
+		doWhatItSays();
+		break;
+}
+
+
+function myTweets() {
+
+}
+
+function spotifyThisSong() {
+
+}
+
+function movieThis(req) {
+	request("http://www.omdbapi.com/?t=" + value + "&y=&plot=short&apikey=40e9cece", function(error, response, body) {
+
+ 
+  if (!error && response.statusCode === 200) {
+
+  	console.log("Movie: " + JSON.parse(body).imdbRating);
+  	console.log("Release year: " + JSON.parse(body).imdbRating);
+  	console.log("The movie's IMDB rating is: " + JSON.parse(body).imdbRating);
+    console.log("The movie's Rotten Tomatoes rating is: " + JSON.parse(body).imdbRating);
+    console.log("The country where the movie was made: " + JSON.parse(body).imdbRating);
+    console.log("The movie's language is: " + JSON.parse(body).imdbRating);
+    console.log("The plot of the movie is: " + JSON.parse(body).imdbRating);
+    console.log("The actors in the movie are: " + JSON.parse(body).imdbRating)
+  }
+});
+
+}
+
+function doWhatItSays() {
+
+}
+</script>
+</body>
+</html>
