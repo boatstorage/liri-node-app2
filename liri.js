@@ -1,6 +1,7 @@
 var twitterKeys = require("./keys.js");
 var fs = require("fs");
 var request = require("request")
+var Spotify = require('node-spotify-api');
 
 
 var action = process.argv[2];
@@ -30,10 +31,35 @@ function myTweets() {
 
 }
 
-function spotifyThisSong() {
+function spotifyThisSong(req) {
+	var spotify = new Spotify({
+  		id: "8a789df7c455457cab178069bb895f19",
+  		secret: "b6c04df9d02f44598fdceb99a88fe757"
+		});
+
+	var nodeArgs = process.argv;
+	// var songName = "";
+
+	// for (var i = 3; i < nodeArgs.length; i++){
+	// 	if (i > 3 && i < nodeArgs.length) {
+	// 		songName = songeName + "+" + nodeArgs[i];
+
+	// 	}
+	// 	else {
+	// 		songName += nodeArgs[i];
+	// 	}
+	// }
+	
+	spotify
+  		.search({ type: 'track', query: "Home" })
+  		.then(function(response) {
+   		 console.log(response);
+ 	 })
+  		.catch(function(err) {
+    	console.log(err);
+  });
 
 }
-
 function movieThis(req) {
 
 	var nodeArgs = process.argv;
