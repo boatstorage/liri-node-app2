@@ -1,11 +1,11 @@
 var twitterKeys = require("./keys.js");
 var fs = require("fs");
 var request = require("request")
-var Spotify = require('node-spotify-api');
+
 
 
 var action = process.argv[2];
-var value = process.argv[3];
+
 
 
 switch(action) {
@@ -31,33 +31,39 @@ function myTweets() {
 
 }
 
-function spotifyThisSong(req) {
+function spotifyThisSong(song) {
+	var Spotify = require('node-spotify-api');
+
 	var spotify = new Spotify({
   		id: "8a789df7c455457cab178069bb895f19",
   		secret: "b6c04df9d02f44598fdceb99a88fe757"
 		});
 
-	var nodeArgs = process.argv;
-	// var songName = "";
+	if (process.argv.length >= 4) {
+		songName = process.argv[3];
+	} 
+	else if (song != 1) {
+		songName = song;
+	}
+	else {
+		songName = "Ace of Base - The Sign"
+	}
 
-	// for (var i = 3; i < nodeArgs.length; i++){
-	// 	if (i > 3 && i < nodeArgs.length) {
-	// 		songName = songeName + "+" + nodeArgs[i];
+	spotify.search({ type: 'track', query: songName }, function(err, data) {
+  	if (err) {
+    return console.log('Error occurred: ' + err);
+  	}
+ 
+	console.log("the artist is:" + data.tracks.items[0].artists[0].name); 
+	console.log("the song is:" + songName)
+	console.log("Preview Link:" + data.tracks.items[0].preview_url);
+	console.log("the album is:" + data.tracks.items[0].album.name);  
+	});
 
-	// 	}
-	// 	else {
-	// 		songName += nodeArgs[i];
-	// 	}
-	// }
 	
-	spotify
-  		.search({ type: 'track', query: "Home" })
-  		.then(function(response) {
-   		 console.log(response);
- 	 })
-  		.catch(function(err) {
-    	console.log(err);
-  });
+	
+ 
+	
 
 }
 function movieThis(req) {
@@ -70,9 +76,13 @@ function movieThis(req) {
 			movieName = movieName + "+" + nodeArgs[i];
 
 		}
-		else {
+		else if (true) {} {
 			movieName += nodeArgs[i];
 		}
+
+		// else {
+		// 	movieName = "Mr.Nobody";
+		// }
 	}
 	var queryUrl = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&apikey=40e9cece";
 
