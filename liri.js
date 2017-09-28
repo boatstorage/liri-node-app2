@@ -1,8 +1,8 @@
 var twitterKeys = require("./keys.js");
 var fs = require("fs");
-var request = require("request")
+var request = require("request");
 
-
+var songName = "";
 
 var action = process.argv[2];
 
@@ -42,42 +42,39 @@ function myTweets() {
 	client.get('statuses/user_timeline', params, function(error, tweets, response) {
  		if (!error) {
  			for (var i = 0; i < tweets.length; i++) {
-	  		console.log(tweets[i].text);
+	  			console.log(tweets[i].text);
+	  		}
 	  	}
    		 
-   		}
-		});
+   		});
 }
+
 function spotifyThisSong(song) {
 	var Spotify = require('node-spotify-api');
-
+	
 	var spotify = new Spotify({
   		id: "8a789df7c455457cab178069bb895f19",
   		secret: "b6c04df9d02f44598fdceb99a88fe757"
 		});
 	
-	for (var i = 3; i < process.argv.length; i++){
-		
-		if (i > 3 && i < process.argv.length) {
-			songName = songName + "+" + process.argv[i];
+	if (process.argv.length >= 4) {
+		songName = process.argv[3];
+	} 
+	else if (song != 1) {
+		songName = song;
 
-		}
-		if (process.argv.length >= 4) {
-			songName = process.argv[3];
-		} 
-	 	 if (song != 1) {
-			songName = song;
-		} else {
-		songName = "Ace of Base - The Sign"
+	} else {	
+		songName = "Ace of Base - The Sign";
 	}
 
+	console.log(songName);
 	spotify.search({ type: 'track', query: songName }, function(err, data) {
   	if (err) {
     return console.log('Error occurred: ' + err);
   	}
  
 	console.log("the artist is:" + data.tracks.items[0].artists[0].name); 
-	console.log("the song is:" + songName)
+	console.log("the song is:" + song)
 	console.log("Preview Link:" + data.tracks.items[0].preview_url);
 	console.log("the album is:" + data.tracks.items[0].album.name);  
 	});
@@ -88,6 +85,7 @@ function spotifyThisSong(song) {
 	
 
 }
+
 function movieThis(movie) {
 
 	var nodeArgs = process.argv;
